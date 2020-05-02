@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keyboard Emulator</title>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='main.js') }}"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Muli:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+  </head>
+  <body>
+    <center><h2>Keyboard Emulator</h2></center>
+    <center><h5>over Websocket</center>
+    <div class="client-status-div">
+        <div style="display: inline-block;">Client => </div>
+        <div id='client-status'>Not Connected</div>
+    </div>
+    <div style="height:10vh"></div>
+    <center><textarea type="text" id="demo"></textarea></center>
+  </body>
+</html>

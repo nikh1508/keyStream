@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"
+
+[packages]
+pynput = "*"
+flask = "*"
+flask-socketio = "*"
+python-socketio = {extras = ["client"],version = "*"}
+
+[requires]
+python_version = "3.7"

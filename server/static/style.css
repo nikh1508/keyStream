@@ -1,0 +1,38 @@
+body {
+  background: #55b9f3;
+}
+#demo {
+  width: 80%;
+  height: 40vh;
+  max-width: 600px;
+  min-height: 200px;
+  border-radius: 20px;
+  background: #84caf3;
+  outline: none;
+  border-style: hidden;
+  vertical-align: top;
+  padding: 15px 15px;
+  font-size: 20px;
+}
+
+h2 {
+  font-family: "Muli", sans-serif;
+  font-size: 300%;
+  color: #001f3f;
+  margin-bottom: 5px;
+}
+
+.client-status-div {
+  margin: 0px 20px;
+  font-family: "Muli", sans-serif;
+  text-align: center;
+}
+#client-status {
+  display: inline-block;
+  color: rgb(239, 74, 56);
+}
+h5 {
+  font-family: "Muli", sans-serif;
+  color: #001f3f;
+  margin-top: 5px;
+}
