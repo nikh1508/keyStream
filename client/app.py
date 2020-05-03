@@ -31,5 +31,6 @@ def handle_keypress(data):
             keyboard.press(data['char'])
 
 
+# sio.connect('https://nikhilkr.com', namespaces=['/client'])
 sio.connect('http://localhost:8080', namespaces=['/client'])
 sio.wait()

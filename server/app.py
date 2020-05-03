@@ -8,7 +8,7 @@ log.setLevel(logging.ERROR)
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 client_connected = False
 
@@ -23,6 +23,7 @@ def new_client():
     global client_connected
     print('Client Connected.')
     client_connected = True
+    socketio.emit('client_connect', '', namespace='/browser')
 
 
 @socketio.on('disconnect', namespace='/client')
@@ -30,6 +31,13 @@ def client_disconnected():
     global client_connected
     print('Client Disconnected.')
     client_connected = False
+    socketio.emit('client_disconnect', '', namespace='/browser')
+
+
+@socketio.on('connect', namespace='/browser')
+def new_browser():
+    if client_connected:
+        socketio.emit('client_connect', '', namespace='/browser')
 
 
 @socketio.on('keypress', namespace='/browser')
