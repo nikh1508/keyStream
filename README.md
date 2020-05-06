@@ -1,20 +1,20 @@
 # Keyboard Emulator
 
-This python script emulates keystrokes on the client's system via keystroke data received from server. The server receives this data from another client device through a web-browser. It works both on the local network as well as over the internet.
+This python script emulates keystrokes on the client's system via keystroke data received from the server. The server receives this data from another client device through a web browser. It works both on the local network as well as over the internet.
 
-> `client-device-2` (browser)	&#8594;	`server`	&#8594;	`client device-1` (emulator)
+> `client-device-2` (browser)	&#8594;	`server`	&#8594;	`client-device-1` (emulator)
 
-For the transmission of data on both sides SocketIO library is used for websocket implementation.
+For the transmission of data on both sides, SocketIO library is used for WebSocket implementation.
 
 
 
 ## Setup
 
-The setup needs to be done on `server` and `client device-1`.
+The setup needs to be done on `server` and `client-device-1`.
 
-You need to setup a server first. This server will server the webpage as well as act as a websocket server. This can either be done on a local system or on a cloud server. Some extra steps are required for setup on a cloud server.
+You need to set up a server first. This server will serve the webpage as well as act as a WebSocket server. This can either be done on a local system or on a cloud server. Some extra steps are required for setup on a cloud server.
 
-In order to install all the required packages you must have `pipenv` installed.
+To install all the required packages, you must have `pipenv` installed.
 
 You can install the `pipenv` package using pip:
 
@@ -35,7 +35,10 @@ pipenv --python /usr/bin/python3
 pipenv install
 ```
 
+ `.env` file contains the environment variables for this project and needs to be set correctly on both `server` and `client-device-1`. Necessary changes for local network:
 
+- set `SERVER_ADDR` to `http://your-server-ip:8080`
+- set `SERVER_PATH` to `/`
 
 To start the server, make sure in the directory `keyboard_emulator` and then run:
 
@@ -43,9 +46,7 @@ To start the server, make sure in the directory `keyboard_emulator` and then run
 pipenv run python server/app.py
 ```
 
-
-
-<p>In file client/app.py change http://localhost:8080 to http://server-ip:8080. </br>Then to start the client run:</p>
+To start the emulator on client system run:
 
 ```
 pipenv run python client/app.py
@@ -55,19 +56,19 @@ Now, you can open the webpage `http://server-ip:8080` on any local device.
 
 
 
-### Setting up server on Cloud
+### Setting up the server on Cloud
 
-This can be done in many ways dependig on your nameserver and web-server. To keep it simple I will expain my exact setup. Setting up proxy for websocket can be difficult if you don't do it correctly. I found the solution <a href="https://github.com/mattermost/mattermost-docker/issues/363#issuecomment-578495685"> here</a>.
+This can be done in many ways depending on your nameserver and web-server. To keep it simple I will explain my exact setup. Setting up a proxy for WebSocket can be difficult if you don't do it correctly. I found the solution <a href="https://github.com/mattermost/mattermost-docker/issues/363#issuecomment-578495685">here</a>.
 
 My setup :
 
-- Cloud Service Provider :  DigitalOcean
-- Web Server :   Caddy
-- Nameserver :   Cloudflare
+- Cloud Service Provider:  DigitalOcean
+- Web Server:  Caddy
+- Nameserver:  Cloudflare
 
 
 
-Proxy in caddy can be setup in two ways depending on how you want the url. It can be either of the two options:
+Proxy in caddy can be setup in two ways depending on how you want the URL. It can be either of the two options:
 
 - app.yourdomain.com
 - www.yourdomain.com/app or subdomain.yourdomain.com/app
@@ -87,19 +88,37 @@ app.yourdomain.com {
 }
 ```
 
-In file `client/app.py` change `http://localhost:8080/` to `https://app.yourdomain.com`. And then start the client.
+Necessary changes in `.env` both on `server` and `client-device-1`:
+
+- set `SERVER_ADDR` to `https://app.yourdomain.com`
+- set `SERVER_PATH` to `/`
 
 
 
-Caddy config for `www.yourdomain.com/app`:
+Caddy config for `www.yourdomain.com/{app}` (change {app} in your case):
 
 ```
 subdomain.yourdomain.com{
 	root /var/www/landing-page
+	proxy /{app} localhost:8080 {
+					without /{app}
+  				except /{app}/socket.io
+  }
+  proxy /{app}/socket.io localhost:8080 {
+  				websocket
+ 					transparent
+   }
 }
 ```
 
+Necessary changes in `.env` both on `server` and `client-device-1`:
 
+- set `SERVER_ADDR` to `https://www.yourdomain.com/app`
+- set `SERVER_PATH` to `/app`
+
+On __Cloudflare__ just change `SSL/TLS encryption mode` to `FULL`in `SSL/TLS` section.
+
+Restart caddy once. And then start the server. Now start the client and you should be able to connect to your server over the internet.
 
 
 
