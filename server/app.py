@@ -1,21 +1,24 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+import os
 import logging
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
+path = os.environ['SERVER_PATH']
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, cors_allowed_origins='*')
+socketio = SocketIO(app, cors_allowed_origins='*',
+                    path=path if path != '/' else 'socket.io')
 
 client_connected = False
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', path=path if path != '/' else '')
 
 
 @socketio.on('connect', namespace='/client')
@@ -47,4 +50,4 @@ def on_keypress(msg):
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=8080)
+    socketio.run(app, host='0.0.0.0', port=int(os.environ['PORT']))

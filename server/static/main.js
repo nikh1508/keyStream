@@ -36,7 +36,13 @@ function change_conn_status(is_connected) {
 }
 
 window.addEventListener("load", () => {
-  socket = io("/browser");
+  const path =
+    window.location.pathname === "/"
+      ? "/socket.io"
+      : window.location.pathname + "/socket.io";
+  socket = io("/browser", {
+    path: path,
+  });
   socket.on("connect", () => {
     console.log("Connected to server.");
     socket.on("client_connect", (data) => {

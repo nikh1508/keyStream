@@ -1,5 +1,6 @@
 from pynput.keyboard import Key, Controller
 import socketio
+import os
 
 sio = socketio.Client()
 keyboard = Controller()
@@ -31,6 +32,6 @@ def handle_keypress(data):
             keyboard.press(data['char'])
 
 
-# sio.connect('https://nikhilkr.com', namespaces=['/client'])
-sio.connect('http://localhost:8080', namespaces=['/client'])
+sio.connect(os.environ['SERVER_ADDR'], namespaces=['/client'], socketio_path=(
+    '' if os.environ['SERVER_PATH'] == '/' else os.environ['SERVER_PATH']) + '/socket.io')
 sio.wait()
