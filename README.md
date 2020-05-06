@@ -6,7 +6,7 @@ This python script emulates keystrokes on the client's system via keystroke data
 
 For the transmission of data on both sides, SocketIO library is used for WebSocket implementation.
 
-
+</br>
 
 ## Setup
 
@@ -22,7 +22,7 @@ You can install the `pipenv` package using pip:
 pip3 install pipenv
 ```
 
-
+</br>
 
 ### Install necessary packages
 
@@ -40,6 +40,8 @@ pipenv install
 - set `SERVER_ADDR` to `http://your-server-ip:8080`
 - set `SERVER_PATH` to `/`
 
+</br>
+
 To start the server, make sure in the directory `keyboard_emulator` and then run:
 
 ```bash
@@ -54,7 +56,7 @@ pipenv run python client/app.py
 
 Now, you can open the webpage `http://server-ip:8080` on any local device.
 
-
+</br>
 
 ### Setting up the server on Cloud
 
@@ -70,8 +72,10 @@ My setup :
 
 Proxy in caddy can be setup in two ways depending on how you want the URL. It can be either of the two options:
 
-- app.yourdomain.com
-- www.yourdomain.com/app or subdomain.yourdomain.com/app
+- `app.yourdomain.com`
+- `www.yourdomain.com/app` or `subdomain.yourdomain.com/app`
+
+</br>
 
 Caddy config for `app.yourdomain.com`:
 
@@ -93,7 +97,7 @@ Necessary changes in `.env` both on `server` and `client-device-1`:
 - set `SERVER_ADDR` to `https://app.yourdomain.com`
 - set `SERVER_PATH` to `/`
 
-
+</br>
 
 Caddy config for `www.yourdomain.com/{app}` (change {app} in your case):
 
@@ -115,6 +119,8 @@ Necessary changes in `.env` both on `server` and `client-device-1`:
 
 - set `SERVER_ADDR` to `https://www.yourdomain.com/app`
 - set `SERVER_PATH` to `/app`
+
+</br>
 
 On __Cloudflare__ just change `SSL/TLS encryption mode` to `FULL`in `SSL/TLS` section.
 
