@@ -1,4 +1,4 @@
-# Keyboard Emulator
+# KeyStream
 
 This python script emulates keystrokes on the client's system via keystroke data received from the server. The server receives this data from another client device through a web browser. It works both on the local network as well as over the internet.
 
@@ -29,8 +29,8 @@ pip3 install pipenv
 This step is common for both `server` and `client-device-1` 
 
 ```bash
-git clone https://github.com/nikh1508/keyboard_emulator
-cd keyboard_emulator
+git clone https://github.com/nikh1508/keyStream
+cd keyStream
 pipenv --python /usr/bin/python3
 pipenv install
 ```
@@ -125,6 +125,3 @@ Necessary changes in `.env` both on `server` and `client-device-1`:
 On __Cloudflare__ just change `SSL/TLS encryption mode` to `FULL`in `SSL/TLS` section.
 
 Restart caddy once. And then start the server. Now start the client and you should be able to connect to your server over the internet.
-
-
-
